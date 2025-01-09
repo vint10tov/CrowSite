@@ -153,6 +153,30 @@ src/Source/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ServerVintCrow.dir/build.make CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.s
 .PHONY : src/Source/main.cpp.s
 
+src/Source/uart.o: src/Source/uart.cpp.o
+.PHONY : src/Source/uart.o
+
+# target to build an object file
+src/Source/uart.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ServerVintCrow.dir/build.make CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o
+.PHONY : src/Source/uart.cpp.o
+
+src/Source/uart.i: src/Source/uart.cpp.i
+.PHONY : src/Source/uart.i
+
+# target to preprocess a source file
+src/Source/uart.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ServerVintCrow.dir/build.make CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.i
+.PHONY : src/Source/uart.cpp.i
+
+src/Source/uart.s: src/Source/uart.cpp.s
+.PHONY : src/Source/uart.s
+
+# target to generate assembly for a file
+src/Source/uart.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ServerVintCrow.dir/build.make CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.s
+.PHONY : src/Source/uart.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -165,6 +189,9 @@ help:
 	@echo "... src/Source/main.o"
 	@echo "... src/Source/main.i"
 	@echo "... src/Source/main.s"
+	@echo "... src/Source/uart.o"
+	@echo "... src/Source/uart.i"
+	@echo "... src/Source/uart.s"
 .PHONY : help
 
 

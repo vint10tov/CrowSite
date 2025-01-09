@@ -1,16 +1,22 @@
-#include <crow.h>
+#include <crow.h>//https://crowcpp.org/master/getting_started/a_simple_webpage/
 #include <unordered_map>
 #include <sstream>
 #include <string>
 
-//https://crowcpp.org/master/getting_started/a_simple_webpage/
+#include "uart.hpp"
 
 bool isInteger(const std::string& str);
 std::unordered_map<std::string, int> parseKeyValueString(const std::string& input);
 
+// Определение статических переменных
+Uart* Uart::instance = nullptr;
+std::mutex Uart::mutex;
+
 int main()
 {
     crow::SimpleApp app;
+
+    Uart * uart = Uart::getInstance();
 
     // Статический маршрут для конкретного файла
     CROW_ROUTE(app, "/css/<string>")

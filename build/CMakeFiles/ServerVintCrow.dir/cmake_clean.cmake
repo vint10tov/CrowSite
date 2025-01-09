@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o"
   "CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o.d"
+  "CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o"
+  "CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o.d"
   "ServerVintCrow"
   "ServerVintCrow.pdb"
 )
