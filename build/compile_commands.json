@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/viktor/CrowSite/build",
+  "command": "/usr/bin/c++ -I/home/viktor/CrowSite/src/Header  -Wall -O2 -g -std=gnu++17 -o CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o -c /home/viktor/CrowSite/src/Source/main.cpp",
+  "file": "/home/viktor/CrowSite/src/Source/main.cpp",
+  "output": "CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o"
+},
+{
+  "directory": "/home/viktor/CrowSite/build",
+  "command": "/usr/bin/c++ -I/home/viktor/CrowSite/src/Header  -Wall -O2 -g -std=gnu++17 -o CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o -c /home/viktor/CrowSite/src/Source/uart.cpp",
+  "file": "/home/viktor/CrowSite/src/Source/uart.cpp",
+  "output": "CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o"
+}
+]
