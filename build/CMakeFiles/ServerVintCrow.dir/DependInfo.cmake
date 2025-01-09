@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/viktor/Рабочий стол/CrowSite/src/Source/main.cpp" "CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o" "gcc" "CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o.d"
+  "" "ServerVintCrow" "gcc" "CMakeFiles/ServerVintCrow.dir/link.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

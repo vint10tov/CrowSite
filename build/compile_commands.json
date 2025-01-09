@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/viktor/Рабочий стол/CrowSite/build",
+  "command": "/usr/bin/c++  -I\"/home/viktor/Рабочий стол/CrowSite/src/Header\"  -std=c++1y -Wall -O2 -g -std=gnu++17 -o CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o -c \"/home/viktor/Рабочий стол/CrowSite/src/Source/main.cpp\"",
+  "file": "/home/viktor/Рабочий стол/CrowSite/src/Source/main.cpp",
+  "output": "CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o"
+}
+]
