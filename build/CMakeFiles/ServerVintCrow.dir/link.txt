@@ -1,1 +1,1 @@
-/usr/bin/c++  -std=c++1y -Wall -O2 -g -Wl,--dependency-file=CMakeFiles/ServerVintCrow.dir/link.d CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o -o ServerVintCrow  -lpthread
+/usr/bin/c++  -Wall -O2 -g CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o -o ServerVintCrow

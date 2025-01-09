@@ -1,7 +1,7 @@
 CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o: \
- /home/viktor/Рабочий\ стол/CrowSite/src/Source/main.cpp \
- /usr/include/stdc-predef.h /usr/include/crow.h \
- /usr/include/crow/query_string.h /usr/include/stdio.h \
+ /home/viktor/CrowSite/src/Source/main.cpp /usr/include/stdc-predef.h \
+ /usr/include/crow.h /usr/include/crow/query_string.h \
+ /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
