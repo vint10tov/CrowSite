@@ -3,7 +3,6 @@
 #include <sstream>
 #include <string>
 
-#include "uart.hpp"
 //https://crowcpp.org/master/getting_started/a_simple_webpage/
 
 bool isInteger(const std::string& str);

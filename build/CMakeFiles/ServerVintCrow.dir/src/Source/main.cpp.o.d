@@ -888,5 +888,4 @@ CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o: \
  /usr/include/crow/http_connection.h /usr/include/crow/compression.h \
  /usr/include/crow/http_server.h /usr/include/crow/version.h \
  /usr/include/crow/app.h /usr/include/c++/13/thread \
- /usr/include/c++/13/bits/this_thread_sleep.h \
- /home/viktor/Рабочий\ стол/CrowSite/src/Header/uart.hpp
+ /usr/include/c++/13/bits/this_thread_sleep.h

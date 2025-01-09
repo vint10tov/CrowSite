@@ -1,16 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o"
   "CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o.d"
-  "CMakeFiles/ServerVintCrow.dir/src/Source/parser_body_relay.cpp.o"
-  "CMakeFiles/ServerVintCrow.dir/src/Source/parser_body_relay.cpp.o.d"
-  "CMakeFiles/ServerVintCrow.dir/src/Source/request_from_server.cpp.o"
-  "CMakeFiles/ServerVintCrow.dir/src/Source/request_from_server.cpp.o.d"
-  "CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o"
-  "CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o.d"
-  "CMakeFiles/ServerVintCrow.dir/src/Source/template_relay.cpp.o"
-  "CMakeFiles/ServerVintCrow.dir/src/Source/template_relay.cpp.o.d"
-  "CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o"
-  "CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o.d"
   "ServerVintCrow"
   "ServerVintCrow.pdb"
 )

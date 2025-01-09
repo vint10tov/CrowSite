@@ -1,1 +1,1 @@
-/usr/bin/c++  -std=c++1y -Wall -O2 -g CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o CMakeFiles/ServerVintCrow.dir/src/Source/parser_body_relay.cpp.o CMakeFiles/ServerVintCrow.dir/src/Source/request_from_server.cpp.o CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o CMakeFiles/ServerVintCrow.dir/src/Source/template_relay.cpp.o CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o -o ServerVintCrow  -lpthread 
+/usr/bin/c++  -std=c++1y -Wall -O2 -g CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o -o ServerVintCrow  -lpthread
