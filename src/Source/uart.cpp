@@ -1,3 +1,4 @@
+#include <crow.h>
 #include <mutex>
 
 #include "uart.hpp"
@@ -9,7 +10,7 @@ Uart::Uart() {
     if (fd == -1) {
         fd = open(port_name_1, O_RDWR | O_NOCTTY | O_NDELAY);
         if (fd == -1) {
-            //Logger::error_log("UartUno: ошибка открытия порта");
+            CROW_LOG_ERROR << "Uart: ошибка открытия порта";
             return;
         }
     }
@@ -34,7 +35,7 @@ Uart::Uart() {
 
     // Сохраняем настройки
     tcsetattr(fd, TCSANOW, &options);
-    //Logger::info_log("UartUno: Последовательный порт открыт");
+    CROW_LOG_INFO << "UartUno: Последовательный порт открыт";
 }
 
 // Закрытый деструктор
@@ -43,7 +44,7 @@ Uart::~Uart() {
         // Закрываем порт
         close(fd);
         delete instance;
-        //Logger::info_log("UartUno: Последовательный порт закрыт");
+        CROW_LOG_INFO << "UartUno: Последовательный порт закрыт";
     }
 }
 
@@ -78,7 +79,7 @@ bool Uart::sending_string(uint8_t * buffer_in, uint8_t * buffer_out,
         ssize_t result = write(fd, buffer_out, size_buffer_out);
         if (result == -1) {
             // Обработка ошибки
-            //Logger::error_log("UartUno: Ошибка записи");
+            CROW_LOG_ERROR << "Uart: Ошибка записи";
             return false;
         }
         // Ждем немного перед чтением (можно настроить)
@@ -87,16 +88,16 @@ bool Uart::sending_string(uint8_t * buffer_in, uint8_t * buffer_out,
         // Чтение ответа от Arduino
         int bytesRead = read(fd, buffer_in, size_buffer_in);
         if (bytesRead < 0) {
-            //Logger::error_log("UartUno: Ошибка чтения");
+            CROW_LOG_ERROR << "Uart: Ошибка чтения";
             return false;
         } else if (bytesRead == 0) {
-            //Logger::error_log("UartUno: Нет данных");
+            CROW_LOG_ERROR << "Uart: Нет данных";
             return false;
         }
         
         // Проверяем контрольную сумму полученных данных
         if (!verify_checksum(buffer_in, size_buffer_in)) {
-            //Logger::error_log("UartUno: Ошибка контрольной суммы");
+            CROW_LOG_ERROR << "Uart: Неверная контрольная сумма";
             return false;
         }
 

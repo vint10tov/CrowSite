@@ -153,6 +153,54 @@ src/Source/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ServerVintCrow.dir/build.make CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.s
 .PHONY : src/Source/main.cpp.s
 
+src/Source/request_uart.o: src/Source/request_uart.cpp.o
+.PHONY : src/Source/request_uart.o
+
+# target to build an object file
+src/Source/request_uart.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ServerVintCrow.dir/build.make CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.o
+.PHONY : src/Source/request_uart.cpp.o
+
+src/Source/request_uart.i: src/Source/request_uart.cpp.i
+.PHONY : src/Source/request_uart.i
+
+# target to preprocess a source file
+src/Source/request_uart.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ServerVintCrow.dir/build.make CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.i
+.PHONY : src/Source/request_uart.cpp.i
+
+src/Source/request_uart.s: src/Source/request_uart.cpp.s
+.PHONY : src/Source/request_uart.s
+
+# target to generate assembly for a file
+src/Source/request_uart.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ServerVintCrow.dir/build.make CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.s
+.PHONY : src/Source/request_uart.cpp.s
+
+src/Source/smart_home.o: src/Source/smart_home.cpp.o
+.PHONY : src/Source/smart_home.o
+
+# target to build an object file
+src/Source/smart_home.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ServerVintCrow.dir/build.make CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o
+.PHONY : src/Source/smart_home.cpp.o
+
+src/Source/smart_home.i: src/Source/smart_home.cpp.i
+.PHONY : src/Source/smart_home.i
+
+# target to preprocess a source file
+src/Source/smart_home.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ServerVintCrow.dir/build.make CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.i
+.PHONY : src/Source/smart_home.cpp.i
+
+src/Source/smart_home.s: src/Source/smart_home.cpp.s
+.PHONY : src/Source/smart_home.s
+
+# target to generate assembly for a file
+src/Source/smart_home.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ServerVintCrow.dir/build.make CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.s
+.PHONY : src/Source/smart_home.cpp.s
+
 src/Source/uart.o: src/Source/uart.cpp.o
 .PHONY : src/Source/uart.o
 
@@ -189,6 +237,12 @@ help:
 	@echo "... src/Source/main.o"
 	@echo "... src/Source/main.i"
 	@echo "... src/Source/main.s"
+	@echo "... src/Source/request_uart.o"
+	@echo "... src/Source/request_uart.i"
+	@echo "... src/Source/request_uart.s"
+	@echo "... src/Source/smart_home.o"
+	@echo "... src/Source/smart_home.i"
+	@echo "... src/Source/smart_home.s"
 	@echo "... src/Source/uart.o"
 	@echo "... src/Source/uart.i"
 	@echo "... src/Source/uart.s"

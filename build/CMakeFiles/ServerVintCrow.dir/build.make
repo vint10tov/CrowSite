@@ -83,10 +83,38 @@ CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/viktor/CrowSite/src/Source/main.cpp -o CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.s
 
+CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.o: CMakeFiles/ServerVintCrow.dir/flags.make
+CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.o: /home/viktor/CrowSite/src/Source/request_uart.cpp
+CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.o: CMakeFiles/ServerVintCrow.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/viktor/CrowSite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.o -MF CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.o.d -o CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.o -c /home/viktor/CrowSite/src/Source/request_uart.cpp
+
+CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/viktor/CrowSite/src/Source/request_uart.cpp > CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.i
+
+CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/viktor/CrowSite/src/Source/request_uart.cpp -o CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.s
+
+CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o: CMakeFiles/ServerVintCrow.dir/flags.make
+CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o: /home/viktor/CrowSite/src/Source/smart_home.cpp
+CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o: CMakeFiles/ServerVintCrow.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/viktor/CrowSite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o -MF CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o.d -o CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o -c /home/viktor/CrowSite/src/Source/smart_home.cpp
+
+CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/viktor/CrowSite/src/Source/smart_home.cpp > CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.i
+
+CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/viktor/CrowSite/src/Source/smart_home.cpp -o CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.s
+
 CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o: CMakeFiles/ServerVintCrow.dir/flags.make
 CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o: /home/viktor/CrowSite/src/Source/uart.cpp
 CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o: CMakeFiles/ServerVintCrow.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/viktor/CrowSite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/viktor/CrowSite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o -MF CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o.d -o CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o -c /home/viktor/CrowSite/src/Source/uart.cpp
 
 CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.i: cmake_force
@@ -100,16 +128,20 @@ CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.s: cmake_force
 # Object files for target ServerVintCrow
 ServerVintCrow_OBJECTS = \
 "CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o" \
+"CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.o" \
+"CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o" \
 "CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o"
 
 # External object files for target ServerVintCrow
 ServerVintCrow_EXTERNAL_OBJECTS =
 
 ServerVintCrow: CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o
+ServerVintCrow: CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.o
+ServerVintCrow: CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o
 ServerVintCrow: CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o
 ServerVintCrow: CMakeFiles/ServerVintCrow.dir/build.make
 ServerVintCrow: CMakeFiles/ServerVintCrow.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/viktor/CrowSite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable ServerVintCrow"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/viktor/CrowSite/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable ServerVintCrow"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ServerVintCrow.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

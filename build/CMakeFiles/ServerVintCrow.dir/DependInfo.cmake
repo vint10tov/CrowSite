@@ -9,6 +9,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/viktor/CrowSite/src/Source/main.cpp" "CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o" "gcc" "CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o.d"
+  "/home/viktor/CrowSite/src/Source/request_uart.cpp" "CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.o" "gcc" "CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.o.d"
+  "/home/viktor/CrowSite/src/Source/smart_home.cpp" "CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o" "gcc" "CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o.d"
   "/home/viktor/CrowSite/src/Source/uart.cpp" "CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o" "gcc" "CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o.d"
   )
 

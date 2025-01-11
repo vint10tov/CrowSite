@@ -1,1 +1,1 @@
-/usr/bin/c++  -Wall -O2 -g CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o -o ServerVintCrow
+/usr/bin/c++  -Wall -O2 -g CMakeFiles/ServerVintCrow.dir/src/Source/main.cpp.o CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.o CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o -o ServerVintCrow
