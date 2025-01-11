@@ -225,6 +225,30 @@ src/Source/uart.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ServerVintCrow.dir/build.make CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.s
 .PHONY : src/Source/uart.cpp.s
 
+src/Source/url_relay.o: src/Source/url_relay.cpp.o
+.PHONY : src/Source/url_relay.o
+
+# target to build an object file
+src/Source/url_relay.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ServerVintCrow.dir/build.make CMakeFiles/ServerVintCrow.dir/src/Source/url_relay.cpp.o
+.PHONY : src/Source/url_relay.cpp.o
+
+src/Source/url_relay.i: src/Source/url_relay.cpp.i
+.PHONY : src/Source/url_relay.i
+
+# target to preprocess a source file
+src/Source/url_relay.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ServerVintCrow.dir/build.make CMakeFiles/ServerVintCrow.dir/src/Source/url_relay.cpp.i
+.PHONY : src/Source/url_relay.cpp.i
+
+src/Source/url_relay.s: src/Source/url_relay.cpp.s
+.PHONY : src/Source/url_relay.s
+
+# target to generate assembly for a file
+src/Source/url_relay.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ServerVintCrow.dir/build.make CMakeFiles/ServerVintCrow.dir/src/Source/url_relay.cpp.s
+.PHONY : src/Source/url_relay.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -246,6 +270,9 @@ help:
 	@echo "... src/Source/uart.o"
 	@echo "... src/Source/uart.i"
 	@echo "... src/Source/uart.s"
+	@echo "... src/Source/url_relay.o"
+	@echo "... src/Source/url_relay.i"
+	@echo "... src/Source/url_relay.s"
 .PHONY : help
 
 

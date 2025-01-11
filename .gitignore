@@ -1,1 +1,10 @@
-build/** */
+# Игнорируем все файлы и папки в build/
+build/*
+
+# Исключаем из игнорирования папки static/ и templates/
+!build/static/
+!build/templates/
+
+# Исключаем из игнорирования все файлы в этих папках
+!build/static/**
+!build/templates/**

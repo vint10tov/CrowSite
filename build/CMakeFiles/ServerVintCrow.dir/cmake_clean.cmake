@@ -7,6 +7,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o.d"
   "CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o"
   "CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o.d"
+  "CMakeFiles/ServerVintCrow.dir/src/Source/url_relay.cpp.o"
+  "CMakeFiles/ServerVintCrow.dir/src/Source/url_relay.cpp.o.d"
   "ServerVintCrow"
   "ServerVintCrow.pdb"
 )

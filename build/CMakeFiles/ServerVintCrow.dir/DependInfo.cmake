@@ -12,6 +12,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/viktor/CrowSite/src/Source/request_uart.cpp" "CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.o" "gcc" "CMakeFiles/ServerVintCrow.dir/src/Source/request_uart.cpp.o.d"
   "/home/viktor/CrowSite/src/Source/smart_home.cpp" "CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o" "gcc" "CMakeFiles/ServerVintCrow.dir/src/Source/smart_home.cpp.o.d"
   "/home/viktor/CrowSite/src/Source/uart.cpp" "CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o" "gcc" "CMakeFiles/ServerVintCrow.dir/src/Source/uart.cpp.o.d"
+  "/home/viktor/CrowSite/src/Source/url_relay.cpp" "CMakeFiles/ServerVintCrow.dir/src/Source/url_relay.cpp.o" "gcc" "CMakeFiles/ServerVintCrow.dir/src/Source/url_relay.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
