@@ -1,3 +1,0 @@
-/home/viktor/CrowSite/build/CMakeFiles/ServerVintCrow.dir
-/home/viktor/CrowSite/build/CMakeFiles/edit_cache.dir
-/home/viktor/CrowSite/build/CMakeFiles/rebuild_cache.dir
