@@ -2,16 +2,20 @@
 #include <string>
 
 #include "url_relay.hpp"
+#include "connect_db.hpp"
 
 // Определение статических переменных
 Uart* Uart::instance = nullptr;
 std::mutex Uart::mutex;
+ConnectDB* ConnectDB::instance = nullptr;
+std::mutex ConnectDB::mutex;
 
 int main()
 {
     crow::SimpleApp app;
 
-    Uart * uart = Uart::getInstance();
+    Uart      * uart = Uart::getInstance();
+    ConnectDB * db   = ConnectDB::getInstance();
 
     // Статический маршрут для конкретного файла
     CROW_ROUTE(app, "/css/<string>")

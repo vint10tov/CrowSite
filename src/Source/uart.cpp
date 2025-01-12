@@ -43,9 +43,9 @@ Uart::~Uart() {
     if (isOpen()) {
         // Закрываем порт
         close(fd);
-        delete instance;
         CROW_LOG_INFO << "UartUno: Последовательный порт закрыт";
     }
+    delete instance;
 }
 
 // Метод для получения единственного экземпляра класса

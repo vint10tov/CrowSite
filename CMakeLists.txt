@@ -17,10 +17,14 @@ file(GLOB CPP_SOURCES "src/Source/*.cpp")
 
 # Указываем путь к заголовочным файлам
 include_directories(src/Header/)
+include_directories(/usr/include/postgresql)  # Добавляем путь к заголовочным файлам PostgreSQL
 
 # Создаем исполняемый файл
 add_executable(${PROJECT_NAME} ${CPP_SOURCES})
 
 # Находим и подключаем библиотеки потоков
 find_package(Threads REQUIRED)
-target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT} pqxx pq)
+
+# Указываем путь к библиотекам PostgreSQL
+link_directories(/usr/lib/postgresql)  # Добавляем путь к библиотекам PostgreSQL
