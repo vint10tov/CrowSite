@@ -25,3 +25,5 @@ sudo systemctl start ServerVintCrow.service
 sudo systemctl stop ServerVintCrow.service
 sudo systemctl status ServerVintCrow.service
 journalctl -u ServerVintCrow.service -f
+
+git pull

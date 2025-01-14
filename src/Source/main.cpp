@@ -5,6 +5,9 @@
 #include "connect_db.hpp"
 #include "url_login.hpp"
 
+const std::string dir_templates = "../src/templates/";
+const std::string dir_static_css = "../src/static/css/";
+
 // Определение статических переменных
 Uart* Uart::instance = nullptr;
 std::mutex Uart::mutex;
@@ -15,7 +18,7 @@ int main()
 {
     crow::SimpleApp app;
 
-    crow::mustache::set_global_base("../src/templates");
+    crow::mustache::set_global_base(dir_templates);
 
     Uart      * uart = Uart::getInstance();
     ConnectDB * db   = ConnectDB::getInstance();
@@ -24,7 +27,7 @@ int main()
     CROW_ROUTE(app, "/static/css/<path>")
     ([](const std::string& filepath) {
         crow::response res;
-        res.set_static_file_info_unsafe("../src/static/css/" + filepath);  // Указать путь к файлу
+        res.set_static_file_info_unsafe(dir_static_css + filepath);  // Указать путь к файлу
         return res;
     });
 
