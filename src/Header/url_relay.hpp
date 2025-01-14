@@ -16,8 +16,8 @@
 
 class URLRelay {
 
-    static const int SIZE_BUF_in  = 21;
-    static const int SIZE_BUF_out = 11;
+    static const std::uint8_t SIZE_BUF_in  = 21;
+    static const std::uint8_t SIZE_BUF_out = 11;
 
     public:
         struct StringsForTemplate {
@@ -47,19 +47,19 @@ class URLRelay {
 
     private:
         StringsForTemplate sft;
-        uint8_t bufer_in[SIZE_BUF_in]   = {0};
-        uint8_t bufer_out[SIZE_BUF_out] = {0};
+        std::uint8_t bufer_in[SIZE_BUF_in]   = {0};
+        std::uint8_t bufer_out[SIZE_BUF_out] = {0};
         SmartHome s_home;
         Uart * uart = nullptr;
 
         // функция получения времени linux
         void time_server(uint & hour, uint & minute);
         // тело запроса в ключ-значение
-        std::map<std::string, uint8_t> parseKeyValueString(const std::string& input);
+        std::map<std::string, std::uint8_t> parseKeyValueString(const std::string& input);
         // проверка строки на возможность преобразования в число
         bool isInteger(const std::string& str);
         // ключ-значение в RequestUATR
-        RequestUATR map_to_RequestUATR(const std::map<std::string, uint8_t>& map);
+        RequestUATR map_to_RequestUATR(const std::map<std::string, std::uint8_t>& map);
         // функция заполнения strings_for_template
         void fill_strings_for_template(RequestUATR & r_uart);
 };

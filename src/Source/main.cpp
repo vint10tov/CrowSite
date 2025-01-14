@@ -3,6 +3,7 @@
 
 #include "url_relay.hpp"
 #include "connect_db.hpp"
+#include "url_login.hpp"
 
 // Определение статических переменных
 Uart* Uart::instance = nullptr;
@@ -23,6 +24,24 @@ int main()
         crow::response res;
         res.set_static_file_info("static/" + filepath);  // Указать путь к файлу
         return res;
+    });
+
+    // Определяем маршрут для страницы логирования
+    CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::GET, crow::HTTPMethod::POST)(
+        [](const crow::request &req){
+
+        auto page = crow::mustache::load("login.html");
+
+        if (req.method == crow::HTTPMethod::GET) {
+
+        } else if (req.method == crow::HTTPMethod::POST) {
+            URLLogin u_login(req.body);
+        }
+        // Создаем контекст (JSON-объект)
+        crow::mustache::context ctx;
+        ctx["title"] = "Вход в систему";
+
+        return page.render(ctx);
     });
 
     // Определяем маршрут для главной страницы

@@ -1,8 +1,6 @@
-#include <crow.h>
-
 #include "smart_home.hpp"
 
-SmartHome::SmartHome(uint8_t i) {
+SmartHome::SmartHome(std::uint8_t i) {
     flag = i;
     relay_0 = i;
     relay_1 = i;
@@ -21,7 +19,7 @@ SmartHome::SmartHome(uint8_t i) {
 }
 
 // Запрос статуса реле
-bool SmartHome::GET_status_relay(uint8_t relay) const {
+bool SmartHome::GET_status_relay(std::uint8_t relay) const {
     if (relay == 0)
         return ((flag & BIT_6) >> 6);
     else if (relay == 1)
@@ -33,7 +31,7 @@ bool SmartHome::GET_status_relay(uint8_t relay) const {
 }
 
 // Запрос статуса мод
-bool SmartHome::GET_status_mod(uint8_t relay, uint8_t mod) const {
+bool SmartHome::GET_status_mod(std::uint8_t relay, std::uint8_t mod) const {
     if (relay == 1)
         return ((flag & BIT_3) >> 3);
     else if (relay == 2 && mod == 0)
@@ -45,7 +43,7 @@ bool SmartHome::GET_status_mod(uint8_t relay, uint8_t mod) const {
 }
 
 // Запрос пина
-uint8_t SmartHome::GET_pin(uint8_t relay) const {
+std::uint8_t SmartHome::GET_pin(std::uint8_t relay) const {
     if (relay == 0)
         return relay_0;
     else if (relay == 1)
@@ -57,7 +55,7 @@ uint8_t SmartHome::GET_pin(uint8_t relay) const {
 }
 
 // Запрос времени <on>
-uint16_t SmartHome::GET_minut_on(uint8_t relay, uint8_t mod) const {
+std::uint16_t SmartHome::GET_minut_on(std::uint8_t relay, std::uint8_t mod) const {
     if (relay == 2 && mod == 0) {
         return minute_on_relay_2_mod_0;
     }
@@ -69,7 +67,7 @@ uint16_t SmartHome::GET_minut_on(uint8_t relay, uint8_t mod) const {
 }
 
 // Запрос времени <off>
-uint16_t SmartHome::GET_minut_off(uint8_t relay, uint8_t mod) const {
+std::uint16_t SmartHome::GET_minut_off(std::uint8_t relay, std::uint8_t mod) const {
     if (relay == 1) {
         return minute_off_relay_1;
     }
@@ -83,7 +81,7 @@ uint16_t SmartHome::GET_minut_off(uint8_t relay, uint8_t mod) const {
     }
 }
 
-bool SmartHome::deserialize(const uint8_t *buffer, uint8_t size_buffer) {
+bool SmartHome::deserialize(const std::uint8_t *buffer, std::uint8_t size_buffer) {
     if (size_buffer < 20) {
         CROW_LOG_ERROR << "SmartHome: Невозможно десериализовать данные";
         return false;
@@ -269,7 +267,7 @@ std::string SmartHome::showTime() const {
     return dates;
 }
 
-std::string SmartHome::showTimeModOn(uint8_t relay, uint8_t mod) {
+std::string SmartHome::showTimeModOn(std::uint8_t relay, std::uint8_t mod) {
     char times[6];
     int index = 0;
 
@@ -318,7 +316,7 @@ std::string SmartHome::showTimeModOn(uint8_t relay, uint8_t mod) {
     return times;
 }
 
-std::string SmartHome::showTimeModOff(uint8_t relay, uint8_t mod) {
+std::string SmartHome::showTimeModOff(std::uint8_t relay, std::uint8_t mod) {
     char times[6];
     int index = 0;
 

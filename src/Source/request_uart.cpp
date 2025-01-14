@@ -1,5 +1,3 @@
-#include <crow.h>
-
 #include "request_uart.hpp"
 
 RequestUATR::RequestUATR() {
@@ -7,7 +5,7 @@ RequestUATR::RequestUATR() {
 }
 
 
-RequestUATR::RequestUATR(uint8_t relay, bool on) {
+RequestUATR::RequestUATR(std::uint8_t relay, bool on) {
     this->relay = relay;
     if (on) {
         flag = 1;
@@ -16,7 +14,7 @@ RequestUATR::RequestUATR(uint8_t relay, bool on) {
     }
 }
 
-RequestUATR::RequestUATR(uint8_t relay, uint8_t mod, uint8_t hour, uint8_t min) {
+RequestUATR::RequestUATR(std::uint8_t relay, std::uint8_t mod, std::uint8_t hour, std::uint8_t min) {
     this->relay = relay;
     this->mod = mod;
     hour_off = hour;
@@ -24,7 +22,7 @@ RequestUATR::RequestUATR(uint8_t relay, uint8_t mod, uint8_t hour, uint8_t min) 
     flag = 2;
 }
 
-RequestUATR::RequestUATR(uint8_t relay, uint8_t mod, bool on) {
+RequestUATR::RequestUATR(std::uint8_t relay, std::uint8_t mod, bool on) {
     this->relay = relay;
     this->mod = mod;
     if (on) {
@@ -34,8 +32,8 @@ RequestUATR::RequestUATR(uint8_t relay, uint8_t mod, bool on) {
     }
 }
 
-RequestUATR::RequestUATR(uint8_t relay, uint8_t mod, uint8_t on_min,
-                                  uint8_t on_hour, uint8_t off_min, uint8_t off_hour) {
+RequestUATR::RequestUATR(std::uint8_t relay, std::uint8_t mod, std::uint8_t on_min,
+                                  std::uint8_t on_hour, std::uint8_t off_min, std::uint8_t off_hour) {
     this->relay = relay;
     this->mod = mod;
     min_on = on_min;
@@ -45,8 +43,8 @@ RequestUATR::RequestUATR(uint8_t relay, uint8_t mod, uint8_t on_min,
     flag = 6;
 }
 
-RequestUATR::RequestUATR(uint8_t min, uint8_t hour,
-                      uint8_t day, uint8_t month, uint8_t year) {
+RequestUATR::RequestUATR(std::uint8_t min, std::uint8_t hour,
+                      std::uint8_t day, std::uint8_t month, std::uint8_t year) {
     min_on = min;
     hour_on = hour;
     this->day = day;
@@ -55,7 +53,7 @@ RequestUATR::RequestUATR(uint8_t min, uint8_t hour,
     flag = 7;
 }
 
-bool RequestUATR::serialize(uint8_t * buffer, uint8_t size_buffer) const {
+bool RequestUATR::serialize(std::uint8_t * buffer, std::uint8_t size_buffer) const {
     if (size_buffer < 10) { // Минимальный размер буфера для сериализации всех полей
         CROW_LOG_ERROR << "RequestUATR: Невозможно сериализовать данные";
         return false;

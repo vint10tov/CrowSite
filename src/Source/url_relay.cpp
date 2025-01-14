@@ -39,8 +39,8 @@ bool URLRelay::isInteger(const std::string& str) {
     return true;
 }
 
-std::map<std::string, uint8_t> URLRelay::parseKeyValueString(const std::string& input) {
-    std::map<std::string, uint8_t> result;
+std::map<std::string, std::uint8_t> URLRelay::parseKeyValueString(const std::string& input) {
+    std::map<std::string, std::uint8_t> result;
     std::istringstream stream(input);
     std::string pair;
 
@@ -48,7 +48,7 @@ std::map<std::string, uint8_t> URLRelay::parseKeyValueString(const std::string& 
         std::string key;
         std::string value;
 
-        size_t equalsPos = pair.find('=');
+        std::size_t equalsPos = pair.find('=');
         if (equalsPos != std::string::npos) {
             key = pair.substr(0, equalsPos);
             value = pair.substr(equalsPos + 1);
@@ -67,7 +67,7 @@ std::map<std::string, uint8_t> URLRelay::parseKeyValueString(const std::string& 
     return result;
 }
 
-RequestUATR URLRelay::map_to_RequestUATR(const std::map<std::string, uint8_t>& map) {
+RequestUATR URLRelay::map_to_RequestUATR(const std::map<std::string, std::uint8_t>& map) {
     // Проверка наличия ключей
     if (map.empty()) {
         CROW_LOG_WARNING << "map_to_RequestUATR: нет ключей";
@@ -90,7 +90,7 @@ RequestUATR URLRelay::map_to_RequestUATR(const std::map<std::string, uint8_t>& m
                 uint hour, minute;
                 time_server(hour, minute);
                 uint temp = hour * 60 + minute + vR1;
-                return RequestUATR(1, 0, static_cast<uint8_t>(temp / 60), static_cast<uint8_t>(temp % 60));
+                return RequestUATR(1, 0, static_cast<std::uint8_t>(temp / 60), static_cast<std::uint8_t>(temp % 60));
             }
         } else if (auto vR2 = getRelayValue("R2"); vR2 != -1) {
             return RequestUATR(2, vR2);

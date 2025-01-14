@@ -1,14 +1,11 @@
-#include <crow.h>
-#include <mutex>
-
 #include "uart.hpp"
 
 // при создании указывается последовательный порт например "/dev/ttyUSB0"
 Uart::Uart() {
-    fd = open(port_name_0, O_RDWR | O_NOCTTY | O_NDELAY);
+    fd = open(port_name_2, O_RDWR | O_NOCTTY | O_NDELAY);
 
     if (fd == -1) {
-        fd = open(port_name_1, O_RDWR | O_NOCTTY | O_NDELAY);
+        fd = open(port_name_3, O_RDWR | O_NOCTTY | O_NDELAY);
         if (fd == -1) {
             CROW_LOG_ERROR << "Uart: ошибка открытия порта";
             return;
@@ -66,14 +63,15 @@ bool Uart::isOpen() const {
 }
 
 // Метод для отправки строки в порт и чтения строки из порта
-bool Uart::sending_string(uint8_t * buffer_in, uint8_t * buffer_out,
-                             size_t size_buffer_in, size_t size_buffer_out) {
+bool Uart::sending_string(std::uint8_t * buffer_in, std::uint8_t * buffer_out,
+                             std::uint8_t size_buffer_in, std::uint8_t size_buffer_out) {
 
     std::lock_guard<std::mutex> lock(mutex); // Защита от многопоточного доступа
     if (isOpen()) {
+        clear_buffer();
         // Вычисление и добавление контрольной суммы к buffer_in
-        uint8_t checksum = calculate_checksum(buffer_out, size_buffer_out - 1);
-        buffer_out[size_buffer_out - 1] = checksum; // Добавляем контрольную сумму в конец
+        uint8_t checksum = calculate_checksum(buffer_out, size_buffer_out - static_cast<std::uint8_t>(1));
+        buffer_out[size_buffer_out - static_cast<std::uint8_t>(1)] = checksum; // Добавляем контрольную сумму в конец
         
         // Отправляем данные на Arduino
         ssize_t result = write(fd, buffer_out, size_buffer_out);
@@ -83,21 +81,25 @@ bool Uart::sending_string(uint8_t * buffer_in, uint8_t * buffer_out,
             return false;
         }
         // Ждем немного перед чтением (можно настроить)
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
         
         // Чтение ответа от Arduino
         int bytesRead = read(fd, buffer_in, size_buffer_in);
+        //CROW_LOG_INFO << "UartUno: read = " << bytesRead;
         if (bytesRead < 0) {
             CROW_LOG_ERROR << "Uart: Ошибка чтения";
             return false;
-        } else if (bytesRead == 0) {
+        }
+        if (bytesRead == 0) {
             CROW_LOG_ERROR << "Uart: Нет данных";
             return false;
         }
-        
-        // Проверяем контрольную сумму полученных данных
+        if (bytesRead != static_cast<int>(size_buffer_in)) {
+            CROW_LOG_ERROR << "Uart: Не верное количество байт: " << bytesRead;
+            return false;
+        }
         if (!verify_checksum(buffer_in, size_buffer_in)) {
-            CROW_LOG_ERROR << "Uart: Неверная контрольная сумма";
+            CROW_LOG_ERROR << "Uart: Не верная контрольная сумма";
             return false;
         }
 
@@ -107,15 +109,23 @@ bool Uart::sending_string(uint8_t * buffer_in, uint8_t * buffer_out,
     }
 }
 
-uint8_t Uart::calculate_checksum(const uint8_t *data, size_t size) const {
-    uint8_t checksum = 0;
-    for (size_t i = 0; i < size; ++i) {
+std::uint8_t Uart::calculate_checksum(const std::uint8_t *data, std::uint8_t size) const {
+    std::uint8_t checksum = 0;
+    for (std::uint8_t i = 0; i < size; ++i) {
         checksum ^= data[i]; // Используем XOR для контроля
     }
     return checksum;
 }
 
-bool Uart::verify_checksum(const uint8_t *data, size_t size) const {
-    uint8_t received_checksum = data[size - 1]; // Предполагаем, что последний байт — это контрольная сумма
-    return received_checksum == calculate_checksum(data, size - 1);
+bool Uart::verify_checksum(const std::uint8_t *data, std::uint8_t size) const {
+    std::uint8_t received_checksum = data[size - static_cast<std::uint8_t>(1)]; // Предполагаем, что последний байт — это контрольная сумма
+    return received_checksum == calculate_checksum(data, size - static_cast<std::uint8_t>(1));
+}
+
+// Метод для очистки буфера порта
+void Uart::clear_buffer() {
+    if (isOpen()) {
+        // Чистим вводной и выводной буферы
+        tcflush(fd, TCIOFLUSH);
+    }
 }
