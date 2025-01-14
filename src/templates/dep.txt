@@ -14,6 +14,7 @@ Description=My C++ Program
 
 [Service]
 ExecStart=/home/vint/CrowSite/build/ServerVintCrow
+WorkingDirectory=/home/vint/CrowSite/build   # Укажите здесь каталог, где находятся ваши файлы
 Restart=always
 
 [Install]
@@ -23,7 +24,10 @@ sudo systemctl enable ServerVintCrow.service
 
 sudo systemctl start ServerVintCrow.service
 sudo systemctl stop ServerVintCrow.service
+sudo systemctl restart ServerVintCrow.service
 sudo systemctl status ServerVintCrow.service
 journalctl -u ServerVintCrow.service -f
 
 git pull
+
+sudo systemctl daemon-reload

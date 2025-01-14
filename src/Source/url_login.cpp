@@ -7,10 +7,21 @@ URLLogin::URLLogin() {
 URLLogin::URLLogin(std::string body) {
     // парсинг ключ-значение из тела запроса
     auto result = parseKeyValueString(body);
-    // Вывод результата
-    for (const auto& pair : result) {
-        CROW_LOG_INFO << "Тело запроса: " << pair.first << " = " << pair.second;
+    
+    if (containsSqlInjection(result.at("username"))) {
+        CROW_LOG_INFO << "URLLogin: Обнаружена SQL-инъекция";
+        return;
     }
+    if (result.at("username") != username) {
+        CROW_LOG_INFO << "URLLogin: Пользователя " << result.at("username") << " не существует";
+        return;
+    }
+    
+    if (hash_password(result.at("psw"), salt) != hash) {
+        CROW_LOG_INFO << "URLLogin: Не верный пароль";
+        return;
+    }
+    check_login = true;
 }
 
 std::map<std::string, std::string> URLLogin::parseKeyValueString(const std::string& input) {

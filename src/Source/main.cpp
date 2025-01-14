@@ -1,4 +1,5 @@
 #include <crow.h>//https://crowcpp.org/master/getting_started/a_simple_webpage/
+#include "crow/middlewares/session.h"
 #include <string>
 
 #include "url_relay.hpp"
@@ -14,14 +15,20 @@ std::mutex Uart::mutex;
 ConnectDB* ConnectDB::instance = nullptr;
 std::mutex ConnectDB::mutex;
 
-int main()
-{
-    crow::SimpleApp app;
-
-    crow::mustache::set_global_base(dir_templates);
+int main() {
 
     Uart      * uart = Uart::getInstance();
     ConnectDB * db   = ConnectDB::getInstance();
+
+    crow::mustache::set_global_base(dir_templates);
+
+    // определить сеанс с типом хранилища
+    // В этом случае хранилище файлов на диске
+    using Session = crow::SessionMiddleware<crow::FileStore>;
+
+    crow::App<crow::CookieParser, Session> app {Session{
+        crow::FileStore{"./sessions"} // убедитесь, что эта папка существует!!
+    }};
 
     //Статический маршрут css
     CROW_ROUTE(app, "/static/css/<path>")
@@ -32,32 +39,81 @@ int main()
     });
 
     // Определяем маршрут для страницы логирования
-    CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::GET, crow::HTTPMethod::POST)(
-        [](const crow::request &req){
+    CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::GET)(
+        [&](const crow::request &req){
 
         auto page = crow::mustache::load("login.html");
+        auto& session = app.get_context<Session>(req);
+        std::string out = "";
 
-        if (req.method == crow::HTTPMethod::GET) {
+        // показать «карточку» с сообщением, если необходимо
+        auto flash = session.get("flash", "");
+        if (!flash.empty()) out += flash;
+        // удалить сообщение из сеанса, чтобы не показывать его во второй раз
+        session.remove("flash");
 
-        } else if (req.method == crow::HTTPMethod::POST) {
-            URLLogin u_login(req.body);
+        // Забанить пользователя, если он пытался часто
+        // Второй параметр — это резерв
+        // — что вернуть, если запись не найдена или имеет другой тип
+        // session.contains() просто проверяет наличие независимо от типа
+        if (session.get("tries", 0) > 3) {
+            out += "Вы часто пытались!";
         }
+
         // Создаем контекст (JSON-объект)
         crow::mustache::context ctx;
         ctx["title"] = "Вход в систему";
+        ctx["out"] = out;
 
         return page.render(ctx);
     });
 
+    // Обработчик входа
+    CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::POST)(
+        [&](const crow::request& req) {
+        
+        auto& session = app.get_context<Session>(req);
+        session.apply("tries", [](int v) {return v + 1; });
+
+        URLLogin u_login(req.body);
+        std::string username = u_login.get_username();
+
+        crow::response rsp;
+        rsp.code = 303;
+        if (u_login.get_login()) {
+            // просто сохраните, что пользователь аутентифицирован
+            // это безопасно и просто
+            session.set("user", username);
+            rsp.add_header("Location", "/");
+        } else {
+            session.set("flash", "Wrong password");
+            rsp.add_header("Location", "/login");
+        }
+        return rsp;
+    });
+
     // Определяем маршрут для главной страницы
-    CROW_ROUTE(app, "/")([](){
+    CROW_ROUTE(app, "/").methods(crow::HTTPMethod::GET)(
+        [&](const crow::request& req) -> crow::response {
+
+        auto& session = app.get_context<Session>(req);
         auto page = crow::mustache::load("index.html");
+        auto username = session.get("user", "");
+
+        // Проверка, если пользователь не авторизован
+        if (username.empty()) {
+            // Создаем ответ с редиректом на страницу входа
+            crow::response res(302);
+            res.set_header("Location", "/login"); // Указываем заголовок для перенаправления
+            return res; // Возвращаем ответ с редиректом
+        }
 
         // Создаем контекст (JSON-объект)
         crow::mustache::context ctx;
         ctx["title"] = "Главная страница";
 
-        return page.render(ctx);
+        // Рендерим шаблон с контекстом
+        return crow::response{page.render(ctx)}; // Оборачиваем отрисованный шаблон в crow::response
     });
 
     // Определяем маршрут для страницы управления реле
