@@ -1,0 +1,27 @@
+git clone https://github.com/vint10tov/CrowSite.git
+
+git clone https://github.com/CrowCpp/Crow.git
+mkdir build
+sudo apt-get install libasio-dev
+cmake .. -DCROW_BUILD_EXAMPLES=OFF -DCROW_BUILD_TESTS=OFF
+sudo make install
+sudo apt install libpqxx-dev
+
+sudo nano /etc/systemd/system/ServerVintCrow.service
+
+[Unit]
+Description=My C++ Program
+
+[Service]
+ExecStart=/home/vint/CrowSite/build/ServerVintCrow
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl enable ServerVintCrow.service
+
+sudo systemctl start ServerVintCrow.service
+sudo systemctl stop ServerVintCrow.service
+sudo systemctl status ServerVintCrow.service
+journalctl -u ServerVintCrow.service -f

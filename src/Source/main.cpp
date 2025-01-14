@@ -15,14 +15,16 @@ int main()
 {
     crow::SimpleApp app;
 
+    crow::mustache::set_global_base("../src/templates");
+
     Uart      * uart = Uart::getInstance();
     ConnectDB * db   = ConnectDB::getInstance();
 
-    // Статический маршрут для конкретного файла
-    CROW_ROUTE(app, "/css/<string>")
+    //Статический маршрут css
+    CROW_ROUTE(app, "/static/css/<path>")
     ([](const std::string& filepath) {
         crow::response res;
-        res.set_static_file_info("static/" + filepath);  // Указать путь к файлу
+        res.set_static_file_info_unsafe("../src/static/css/" + filepath);  // Указать путь к файлу
         return res;
     });
 
