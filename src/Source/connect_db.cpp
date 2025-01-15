@@ -24,6 +24,9 @@ ConnectDB::ConnectDB() {
 }
 
 ConnectDB::~ConnectDB() {
+    if (connect->is_open()) {
+        connect->close();
+    }
     object_exists = false;
     delete connect;
 }
