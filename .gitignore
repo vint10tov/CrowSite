@@ -4,6 +4,7 @@ build/*
 # Исключаем из игнорирования папки static/ и templates/
 !build/static/
 !build/templates/
+!build/sessions/
 
 # Исключаем из игнорирования все файлы в этих папках
 !build/static/**
