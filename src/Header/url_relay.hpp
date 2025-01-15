@@ -9,10 +9,9 @@
 #include <ctime>
 #include <chrono>
 
-#include "uart.hpp"
+#include "RS485Vint.hpp"
 #include "request_uart.hpp"
 #include "smart_home.hpp"
-#include "uart.hpp"
 
 class URLRelay {
 
@@ -41,16 +40,17 @@ class URLRelay {
             std::string RstatusR2M1 = "1";
         };
 
-        URLRelay(Uart * uart);
-        URLRelay(Uart * uart, std::string body);
+        URLRelay(RS485Vint & rs485);
+        URLRelay(RS485Vint & rs485, std::string body);
         const StringsForTemplate & GET_StringsForTemplate() const {return sft;}
 
     private:
         StringsForTemplate sft;
+        SmartHome s_home;
+
         std::uint8_t bufer_in[SIZE_BUF_in]   = {0};
         std::uint8_t bufer_out[SIZE_BUF_out] = {0};
-        SmartHome s_home;
-        Uart * uart = nullptr;
+        
 
         // функция получения времени linux
         void time_server(uint & hour, uint & minute);
@@ -61,5 +61,5 @@ class URLRelay {
         // ключ-значение в RequestUATR
         RequestUATR map_to_RequestUATR(const std::map<std::string, std::uint8_t>& map);
         // функция заполнения strings_for_template
-        void fill_strings_for_template(RequestUATR & r_uart);
+        void fill_strings_for_template(RequestUATR & r_uart, RS485Vint & rs485);
 };

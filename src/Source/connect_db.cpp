@@ -1,11 +1,19 @@
 #include "connect_db.hpp"
 
+bool ConnectDB::object_exists = false;
+std::mutex ConnectDB::mutex;
+
 ConnectDB::ConnectDB() {
+    if (object_exists) {
+        return;
+    }
+    object_exists = true;
     try {
         // Подключение к базе данных
         connect = new pqxx::connection(db);
         if (connect->is_open()) {
             CROW_LOG_INFO << "ConnectDB: Подключено к базе данных: " << connect->dbname();
+            status_object = true;
         } else {
             CROW_LOG_ERROR << "Невозможно открыть базу данных";
         }
@@ -16,17 +24,6 @@ ConnectDB::ConnectDB() {
 }
 
 ConnectDB::~ConnectDB() {
-    if (connect->is_open()) {
-        connect->close();
-    }
-    delete instance;
+    object_exists = false;
     delete connect;
-}
-
-ConnectDB* ConnectDB::getInstance() {
-    std::lock_guard<std::mutex> lock(mutex); // Защита от многопоточного доступа
-    if (instance == nullptr) {
-        instance = new ConnectDB();
-    }
-    return instance;
 }

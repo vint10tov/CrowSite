@@ -6,21 +6,16 @@
 
 class ConnectDB final {
     private:
-        static ConnectDB* instance;    // Указатель на единственный экземпляр
+        static bool object_exists;     // Существование объекта этого класса в программе
+        bool status_object = false;    // Статус объекта (fals - не активен)
         static std::mutex mutex;       // Мьютекс для защиты многопоточности
-
         pqxx::connection * connect = nullptr;
-      
         const char db[67] = "dbname=crowbase user=crowserwer password=885596tovbazacrowserwer@V";
-        // Закрытый конструктор для предотвращения создания экземпляров
-        ConnectDB();
-        // Закрытый деструктор
-        ~ConnectDB();
-
+        
         // Запрет на копирование экземпляров
         ConnectDB(const ConnectDB&) = delete;
         ConnectDB& operator=(const ConnectDB&) = delete;
     public:
-        // Метод для получения единственного экземпляра класса
-        static ConnectDB* getInstance();
+        ConnectDB();
+        ~ConnectDB();
 };

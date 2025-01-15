@@ -2,23 +2,18 @@
 #include "crow/middlewares/session.h"
 #include <string>
 
-#include "url_relay.hpp"
 #include "connect_db.hpp"
+#include "RS485Vint.hpp"
+#include "url_relay.hpp"
 #include "url_login.hpp"
 
-const std::string dir_templates = "../src/templates/";
+const std::string dir_templates  = "../src/templates/";
 const std::string dir_static_css = "../src/static/css/";
-
-// Определение статических переменных
-Uart* Uart::instance = nullptr;
-std::mutex Uart::mutex;
-ConnectDB* ConnectDB::instance = nullptr;
-std::mutex ConnectDB::mutex;
 
 int main() {
 
-    Uart      * uart = Uart::getInstance();
-    ConnectDB * db   = ConnectDB::getInstance();
+    RS485Vint rs485;
+    ConnectDB db;
 
     crow::mustache::set_global_base(dir_templates);
 
@@ -118,19 +113,19 @@ int main() {
 
     // Определяем маршрут для страницы управления реле
     CROW_ROUTE(app, "/relay").methods(crow::HTTPMethod::GET, crow::HTTPMethod::POST)(
-        [uart](const crow::request &req){
+        [&rs485](const crow::request &req){
 
         auto page = crow::mustache::load("relay.html");
         URLRelay::StringsForTemplate sft;
 
         if (req.method == crow::HTTPMethod::GET) {
 
-            URLRelay u_relay(uart);
+            URLRelay u_relay(rs485);
             sft = u_relay.GET_StringsForTemplate();
 
         } else if (req.method == crow::HTTPMethod::POST) {
 
-            URLRelay u_relay(uart, req.body);
+            URLRelay u_relay(rs485, req.body);
             sft = u_relay.GET_StringsForTemplate();
         }
 

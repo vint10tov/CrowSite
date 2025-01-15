@@ -10,9 +10,10 @@
 #include <chrono>
 #include <mutex>
 
-class Uart final {
+class RS485Vint final {
     private:
-        static Uart* instance;         // Указатель на единственный экземпляр
+        static bool object_exists;     // Существование объекта этого класса в программе
+        bool status_object = false;    // Статус объекта (fals - не активен)
         static std::mutex mutex;       // Мьютекс для защиты многопоточности
         int fd = -1;
         const char port_name_0[13] = "/dev/ttyACM0";
@@ -20,21 +21,17 @@ class Uart final {
         const char port_name_2[13] = "/dev/ttyUSB0";
         const char port_name_3[13] = "/dev/ttyUSB1";
 
-        // Закрытый конструктор для предотвращения создания экземпляров
-        Uart();
-        // Закрытый деструктор
-        ~Uart();
+        // Запрет на копирование экземпляров
+        RS485Vint(const RS485Vint&) = delete;
+        RS485Vint& operator=(const RS485Vint&) = delete;
+
         std::uint8_t calculate_checksum(const std::uint8_t *data, std::uint8_t size) const;
         bool verify_checksum(const std::uint8_t *data, std::uint8_t size) const;
-        void clear_buffer();
     public:
-        // Метод для получения единственного экземпляра класса
-        static Uart* getInstance();
-
-        // Метод для отправки строки в порт и чтения строки из порта
+        RS485Vint();
+        ~RS485Vint();
+        // Метод для отправки массива байт в порт и чтения массива из порта
+        // последний байт - контросьная сумма
         bool sending_string(std::uint8_t * buffer_in, std::uint8_t * buffer_out,
                              std::uint8_t size_buffer_in, std::uint8_t size_buffer_out);
-
-        // Метод для проверки, открыт ли порт
-        bool isOpen() const;
 };

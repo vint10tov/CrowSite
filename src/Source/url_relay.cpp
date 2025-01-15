@@ -1,13 +1,11 @@
 #include "url_relay.hpp"
 
-URLRelay::URLRelay(Uart * uart) {
-    this->uart = uart;
+URLRelay::URLRelay(RS485Vint & rs485) {
     RequestUATR r_uart;
-    fill_strings_for_template(r_uart);
+    fill_strings_for_template(r_uart, rs485);
 }
 
-URLRelay::URLRelay(Uart * uart, std::string body) {
-    this->uart = uart;
+URLRelay::URLRelay(RS485Vint & rs485, std::string body) {
     // парсинг ключ-значение из тела запроса
     auto result = parseKeyValueString(body);
     // Вывод результата
@@ -16,7 +14,7 @@ URLRelay::URLRelay(Uart * uart, std::string body) {
     }
     // объект запроса для платы
     RequestUATR r_uart = map_to_RequestUATR(result);
-    fill_strings_for_template(r_uart);
+    fill_strings_for_template(r_uart, rs485);
 }
 
 void URLRelay::time_server(uint & hour, uint & minute) {
@@ -136,13 +134,13 @@ RequestUATR URLRelay::map_to_RequestUATR(const std::map<std::string, std::uint8_
     return RequestUATR();
 }
 
-void URLRelay::fill_strings_for_template(RequestUATR &r_uart) {
+void URLRelay::fill_strings_for_template(RequestUATR &r_uart, RS485Vint & rs485) {
     if (!r_uart.serialize(bufer_out, SIZE_BUF_out)) {
         sft.error = "ERROR: ошибка сериализации RequestUATR";
         return;
     }
 
-    if (!uart->sending_string(bufer_in, bufer_out, SIZE_BUF_in, SIZE_BUF_out)) {
+    if (!rs485.sending_string(bufer_in, bufer_out, SIZE_BUF_in, SIZE_BUF_out)) {
         sft.error = "ERROR: ошибка отправки или принятия данных";
         return;
     }

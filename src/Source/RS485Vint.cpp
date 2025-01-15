@@ -1,13 +1,21 @@
-#include "uart.hpp"
+#include "RS485Vint.hpp"
+
+bool RS485Vint::object_exists = false;
+std::mutex RS485Vint::mutex;
 
 // при создании указывается последовательный порт например "/dev/ttyUSB0"
-Uart::Uart() {
+RS485Vint::RS485Vint() {
+    if (object_exists) {
+        CROW_LOG_WARNING << "RS485Vint: объект уже существует";
+        return;
+    }
+    status_object  = true;
     fd = open(port_name_2, O_RDWR | O_NOCTTY | O_NDELAY);
 
     if (fd == -1) {
         fd = open(port_name_3, O_RDWR | O_NOCTTY | O_NDELAY);
         if (fd == -1) {
-            CROW_LOG_ERROR << "Uart: ошибка открытия порта";
+            CROW_LOG_ERROR << "RS485Vint: ошибка открытия порта";
             return;
         }
     }
@@ -32,43 +40,25 @@ Uart::Uart() {
 
     // Сохраняем настройки
     tcsetattr(fd, TCSANOW, &options);
-    CROW_LOG_INFO << "UartUno: Последовательный порт открыт";
+    CROW_LOG_INFO << "RS485Vint: Последовательный порт открыт";
 }
 
 // Закрытый деструктор
-Uart::~Uart() {
-    if (isOpen()) {
-        // Закрываем порт
+RS485Vint::~RS485Vint() {
+    object_exists = false;
+    // Закрываем порт
+    if (fd > 0) {
         close(fd);
-        CROW_LOG_INFO << "UartUno: Последовательный порт закрыт";
     }
-    delete instance;
-}
-
-// Метод для получения единственного экземпляра класса
-Uart* Uart::getInstance() {
-    std::lock_guard<std::mutex> lock(mutex); // Защита от многопоточного доступа
-    if (instance == nullptr) {
-        instance = new Uart();
-    }
-    return instance;
-}
-
-// Метод для проверки, открыт ли порт
-bool Uart::isOpen() const {
-    if (fd != -1)
-        return true;
-    else
-        return false;
 }
 
 // Метод для отправки строки в порт и чтения строки из порта
-bool Uart::sending_string(std::uint8_t * buffer_in, std::uint8_t * buffer_out,
+bool RS485Vint::sending_string(std::uint8_t * buffer_in, std::uint8_t * buffer_out,
                              std::uint8_t size_buffer_in, std::uint8_t size_buffer_out) {
 
     std::lock_guard<std::mutex> lock(mutex); // Защита от многопоточного доступа
-    if (isOpen()) {
-        clear_buffer();
+    if (fd > 0) {
+        tcflush(fd, TCIOFLUSH);
         // Вычисление и добавление контрольной суммы к buffer_in
         uint8_t checksum = calculate_checksum(buffer_out, size_buffer_out - static_cast<std::uint8_t>(1));
         buffer_out[size_buffer_out - static_cast<std::uint8_t>(1)] = checksum; // Добавляем контрольную сумму в конец
@@ -77,7 +67,7 @@ bool Uart::sending_string(std::uint8_t * buffer_in, std::uint8_t * buffer_out,
         ssize_t result = write(fd, buffer_out, size_buffer_out);
         if (result == -1) {
             // Обработка ошибки
-            CROW_LOG_ERROR << "Uart: Ошибка записи";
+            CROW_LOG_ERROR << "RS485Vint: Ошибка записи";
             return false;
         }
         // Ждем немного перед чтением (можно настроить)
@@ -87,29 +77,30 @@ bool Uart::sending_string(std::uint8_t * buffer_in, std::uint8_t * buffer_out,
         int bytesRead = read(fd, buffer_in, size_buffer_in);
         //CROW_LOG_INFO << "UartUno: read = " << bytesRead;
         if (bytesRead < 0) {
-            CROW_LOG_ERROR << "Uart: Ошибка чтения";
+            CROW_LOG_ERROR << "RS485Vint: Ошибка чтения";
             return false;
         }
         if (bytesRead == 0) {
-            CROW_LOG_ERROR << "Uart: Нет данных";
+            CROW_LOG_ERROR << "RS485Vint: Нет данных";
             return false;
         }
         if (bytesRead != static_cast<int>(size_buffer_in)) {
-            CROW_LOG_ERROR << "Uart: Не верное количество байт: " << bytesRead;
+            CROW_LOG_ERROR << "RS485Vint: Не верное количество байт: " << bytesRead;
             return false;
         }
         if (!verify_checksum(buffer_in, size_buffer_in)) {
-            CROW_LOG_ERROR << "Uart: Не верная контрольная сумма";
+            CROW_LOG_ERROR << "RS485Vint: Не верная контрольная сумма";
             return false;
         }
 
         return true;
     } else {
+        CROW_LOG_ERROR << "RS485Vint: Порт закрыт";
         return false;
     }
 }
 
-std::uint8_t Uart::calculate_checksum(const std::uint8_t *data, std::uint8_t size) const {
+std::uint8_t RS485Vint::calculate_checksum(const std::uint8_t *data, std::uint8_t size) const {
     std::uint8_t checksum = 0;
     for (std::uint8_t i = 0; i < size; ++i) {
         checksum ^= data[i]; // Используем XOR для контроля
@@ -117,15 +108,8 @@ std::uint8_t Uart::calculate_checksum(const std::uint8_t *data, std::uint8_t siz
     return checksum;
 }
 
-bool Uart::verify_checksum(const std::uint8_t *data, std::uint8_t size) const {
-    std::uint8_t received_checksum = data[size - static_cast<std::uint8_t>(1)]; // Предполагаем, что последний байт — это контрольная сумма
+bool RS485Vint::verify_checksum(const std::uint8_t *data, std::uint8_t size) const {
+     // Предполагаем, что последний байт — это контрольная сумма
+    std::uint8_t received_checksum = data[size - static_cast<std::uint8_t>(1)];
     return received_checksum == calculate_checksum(data, size - static_cast<std::uint8_t>(1));
-}
-
-// Метод для очистки буфера порта
-void Uart::clear_buffer() {
-    if (isOpen()) {
-        // Чистим вводной и выводной буферы
-        tcflush(fd, TCIOFLUSH);
-    }
 }
