@@ -35,7 +35,7 @@ int main() {
 
     // Определяем маршрут для страницы логирования
     CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::GET)(
-        [&](const crow::request &req){
+        [&app](const crow::request &req){
 
         auto page = crow::mustache::load("login.html");
         auto& session = app.get_context<Session>(req);
@@ -65,7 +65,7 @@ int main() {
 
     // Обработчик входа
     CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::POST)(
-        [&](const crow::request& req) {
+        [&app](const crow::request& req) {
         
         auto& session = app.get_context<Session>(req);
         session.apply("tries", [](int v) {return v + 1; });
@@ -81,7 +81,7 @@ int main() {
             session.set("user", username);
             rsp.add_header("Location", "/");
         } else {
-            session.set("flash", "Wrong password");
+            session.set("flash", "Неправильный пароль");
             rsp.add_header("Location", "/login");
         }
         return rsp;
@@ -89,7 +89,7 @@ int main() {
 
     // Определяем маршрут для главной страницы
     CROW_ROUTE(app, "/").methods(crow::HTTPMethod::GET)(
-        [&](const crow::request& req) -> crow::response {
+        [&app](const crow::request& req) -> crow::response {
 
         auto& session = app.get_context<Session>(req);
         auto page = crow::mustache::load("index.html");
@@ -113,10 +113,20 @@ int main() {
 
     // Определяем маршрут для страницы управления реле
     CROW_ROUTE(app, "/relay").methods(crow::HTTPMethod::GET, crow::HTTPMethod::POST)(
-        [&rs485](const crow::request &req){
+        [&rs485, &app](const crow::request &req){
 
+        auto& session = app.get_context<Session>(req);
         auto page = crow::mustache::load("relay.html");
+        auto username = session.get("user", "");
         URLRelay::StringsForTemplate sft;
+
+        // Проверка, если пользователь не авторизован
+        if (username.empty()) {
+            // Создаем ответ с редиректом на страницу входа
+            crow::response res(302);
+            res.set_header("Location", "/login"); // Указываем заголовок для перенаправления
+            return res; // Возвращаем ответ с редиректом
+        }
 
         if (req.method == crow::HTTPMethod::GET) {
 
@@ -149,9 +159,8 @@ int main() {
         ctx["statusR2M1"]  = sft.statusR2M1;
         ctx["RstatusR2M1"] = sft.RstatusR2M1;
 
-        
-        // Генерация страницы с использованием Mustache шаблона
-        return page.render(ctx);
+        // Рендерим шаблон с контекстом
+        return crow::response{page.render(ctx)}; // Оборачиваем отрисованный шаблон в crow::response
     });
 
     // Запускаем сервер на порту 

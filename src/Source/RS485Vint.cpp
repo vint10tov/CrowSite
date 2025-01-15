@@ -27,16 +27,28 @@ RS485Vint::RS485Vint() {
     cfsetispeed(&options, B9600); // Скорость приема
     cfsetospeed(&options, B9600); // Скорость передачи
 
-    options.c_cflag |= (CLOCAL | CREAD); // Игнорируем режим управления модемом, включаем прием
-    options.c_cflag &= ~PARENB;  // Без контроля четности
-    options.c_cflag &= ~CSTOPB;  // Один стоп-бит
-    options.c_cflag &= ~CSIZE;   // Очистить маску размера бита
-    options.c_cflag |= CS8;      // Установить 8 бит данных
+    // Настройка параметров порта
+    options.c_cflag = (options.c_cflag & ~CSIZE) | CS8; // 8 бит данных
+    options.c_cflag |= (CLOCAL | CREAD); // Разрешить прием
+    options.c_cflag &= ~PARENB; // Без четности
+    options.c_cflag &= ~CSTOPB; // 1 стоп-бит
     options.c_cflag &= ~CRTSCTS; // Без аппаратного управления
 
+    //options.c_cflag |= (CLOCAL | CREAD); // Игнорируем режим управления модемом, включаем прием
+    //options.c_cflag &= ~PARENB;  // Без контроля четности
+    //options.c_cflag &= ~CSTOPB;  // Один стоп-бит
+    //options.c_cflag &= ~CSIZE;   // Очистить маску размера бита
+    //options.c_cflag |= CS8;      // Установить 8 бит данных
+    //options.c_cflag &= ~CRTSCTS; // Без аппаратного управления
+
+    // Установка режима выхода
+    options.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG); // Режим неканонического ввода
+    options.c_iflag &= ~(IXON | IXOFF | IXANY); // Без программного управления потоком
+    options.c_oflag &= ~OPOST; // Без обработки выходных данных
+
     // Устанавливаем опции терминала
-    options.c_lflag &= ~(ICANON | ECHO); // Режим неканонической линии, выключаем эхо
-    options.c_oflag &= ~OPOST; // Выключаем постобработку вывода
+    //options.c_lflag &= ~(ICANON | ECHO); // Режим неканонической линии, выключаем эхо
+    //options.c_oflag &= ~OPOST; // Выключаем постобработку вывода
 
     // Сохраняем настройки
     tcsetattr(fd, TCSANOW, &options);
