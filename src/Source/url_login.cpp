@@ -1,10 +1,6 @@
 #include "url_login.hpp"
 
-URLLogin::URLLogin() {
-    //
-}
-
-URLLogin::URLLogin(std::string body) {
+URLLogin::URLLogin(std::string body, ConnectDB & db) {
     // парсинг ключ-значение из тела запроса
     auto result = parseKeyValueString(body);
     
@@ -12,13 +8,21 @@ URLLogin::URLLogin(std::string body) {
         CROW_LOG_INFO << "URLLogin: Обнаружена SQL-инъекция";
         return;
     }
-    if (result.at("username") != username) {
+
+    if (!db.get_status_object()) {
+        CROW_LOG_INFO << "URLLogin: Не удалось подключиться к базе данных";
+        return;
+    }
+
+    if (!db.get_user(result.at("username"), user)) {
         CROW_LOG_INFO << "URLLogin: Пользователя " << result.at("username") << " не существует";
         return;
     }
     
-    if (hash_password(result.at("psw"), salt) != hash) {
+    if (hash_password(result.at("psw"), user.salt) != user.psw) {
         CROW_LOG_INFO << "URLLogin: Не верный пароль";
+        CROW_LOG_INFO << hash_password(result.at("psw"), user.salt);
+        CROW_LOG_INFO << user.psw;
         return;
     }
     check_login = true;

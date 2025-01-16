@@ -5,18 +5,18 @@
 #include <map>
 #include <openssl/sha.h> // g++ main.cpp -o my_program -lssl -lcrypto
 
+#include "connect_db.hpp"
+#include "user.hpp"
+
 class URLLogin {
     public:
-        URLLogin();
-        URLLogin(std::string body);
+        URLLogin(std::string body, ConnectDB & db);
         bool get_login() {return check_login;}
-        std::string get_username() {return username;}
+        std::string get_username() {return user.username;}
+        std::string get_userrole() {return user.userrole;}
     private:
         bool check_login = false;
-        std::string username = "vint";
-        std::string psw = "123";
-        std::string salt = "82Kw2yrJE8qyLoBK";
-        std::string hash = "73d125a86ba7d0cd638e8f8b837dd1b8c09061daa3bffcf471a1902a6f278d05";
+        User user;
         // тело запроса в ключ-значение
         std::map<std::string, std::string> parseKeyValueString(const std::string& input);
         // генератор соли

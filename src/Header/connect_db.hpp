@@ -4,6 +4,8 @@
 #include <pqxx/pqxx>//g++ main.cpp -o test_db -I/usr/include/postgresql -L/usr/lib/postgresql -lpqxx -lpq
 #include <mutex>
 
+#include "user.hpp"
+
 class ConnectDB final {
     private:
         static bool object_exists;     // Существование объекта этого класса в программе
@@ -18,4 +20,8 @@ class ConnectDB final {
     public:
         ConnectDB();
         ~ConnectDB();
+        // получение данных пользователя
+        bool get_user(std::string & username, User & user) const;
+        // проверка наличия объекта
+        bool get_status_object() const {return status_object;}
 };

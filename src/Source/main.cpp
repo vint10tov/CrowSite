@@ -65,13 +65,14 @@ int main() {
 
     // Обработчик входа
     CROW_ROUTE(app, "/login").methods(crow::HTTPMethod::POST)(
-        [&app](const crow::request& req) {
+        [&app, &db](const crow::request& req) {
         
         auto& session = app.get_context<Session>(req);
         session.apply("tries", [](int v) {return v + 1; });
 
-        URLLogin u_login(req.body);
+        URLLogin u_login(req.body, db);
         std::string username = u_login.get_username();
+        std::string userrole = u_login.get_userrole();
 
         crow::response rsp;
         rsp.code = 303;
@@ -79,6 +80,7 @@ int main() {
             // просто сохраните, что пользователь аутентифицирован
             // это безопасно и просто
             session.set("user", username);
+            session.set("role", userrole);
             rsp.add_header("Location", "/");
         } else {
             session.set("flash", "Неправильный пароль");
@@ -113,7 +115,7 @@ int main() {
 
     // Определяем маршрут для страницы управления реле
     CROW_ROUTE(app, "/relay").methods(crow::HTTPMethod::GET, crow::HTTPMethod::POST)(
-        [&rs485, &app](const crow::request &req){
+        [&app, &rs485](const crow::request &req){
 
         auto& session = app.get_context<Session>(req);
         auto page = crow::mustache::load("relay.html");
