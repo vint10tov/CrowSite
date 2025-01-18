@@ -1,13 +1,8 @@
 #include "connect_db.hpp"
 
-bool ConnectDB::object_exists = false;
 std::mutex ConnectDB::mutex;
 
 ConnectDB::ConnectDB(Config & conf) {
-    if (object_exists) {
-        return;
-    }
-    object_exists = true;
     try {
         // Подключение к базе данных
         connect = new pqxx::connection(conf.get_db());
@@ -41,7 +36,6 @@ ConnectDB::ConnectDB(Config & conf) {
             // Завершение транзакции
             W.commit();
 
-            status_object = true;
         } else {
             CROW_LOG_ERROR << "ConnectDB: Невозможно открыть базу данных";
         }
@@ -55,11 +49,12 @@ ConnectDB::~ConnectDB() {
     if (connect->is_open()) {
         connect->close();
     }
-    object_exists = false;
     delete connect;
 }
 
 bool ConnectDB::get_user(std::string & username, User & user) const {
+    
+    std::lock_guard<std::mutex> lock(mutex); // Защита от многопоточного доступа
     // Создание объекта транзакции
     pqxx::work W(*connect);
 

@@ -1,24 +1,39 @@
 #include "RS485Vint.hpp"
 
-bool RS485Vint::object_exists = false;
 std::mutex RS485Vint::mutex;
 
-// при создании указывается последовательный порт например "/dev/ttyUSB0"
 RS485Vint::RS485Vint(Config & conf) {
-    if (object_exists) {
-        CROW_LOG_WARNING << "RS485Vint: объект уже существует";
+
+    this->conf = &conf;
+
+    if (!open_port()) {
         return;
     }
-    status_object  = true;
-    fd = open(conf.get_port_1().c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
+    set_port();
+}
+
+// Закрытый деструктор
+RS485Vint::~RS485Vint() {
+    // Закрываем порт
+    if (fd > 0) {
+        close(fd);
+    }
+}
+
+bool RS485Vint::open_port() {
+    fd = open(conf->get_port_1().c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
 
     if (fd == -1) {
-        fd = open(conf.get_port_2().c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
+        fd = open(conf->get_port_2().c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
         if (fd == -1) {
             CROW_LOG_ERROR << "RS485Vint: ошибка открытия порта";
-            return;
+            return false;
         }
     }
+    return true;
+}
+
+void RS485Vint::set_port() {
 
     struct termios options;
     tcgetattr(fd, &options);
@@ -34,34 +49,15 @@ RS485Vint::RS485Vint(Config & conf) {
     options.c_cflag &= ~CSTOPB; // 1 стоп-бит
     options.c_cflag &= ~CRTSCTS; // Без аппаратного управления
 
-    //options.c_cflag |= (CLOCAL | CREAD); // Игнорируем режим управления модемом, включаем прием
-    //options.c_cflag &= ~PARENB;  // Без контроля четности
-    //options.c_cflag &= ~CSTOPB;  // Один стоп-бит
-    //options.c_cflag &= ~CSIZE;   // Очистить маску размера бита
-    //options.c_cflag |= CS8;      // Установить 8 бит данных
-    //options.c_cflag &= ~CRTSCTS; // Без аппаратного управления
-
     // Установка режима выхода
     options.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG); // Режим неканонического ввода
     options.c_iflag &= ~(IXON | IXOFF | IXANY); // Без программного управления потоком
     options.c_oflag &= ~OPOST; // Без обработки выходных данных
 
-    // Устанавливаем опции терминала
-    //options.c_lflag &= ~(ICANON | ECHO); // Режим неканонической линии, выключаем эхо
-    //options.c_oflag &= ~OPOST; // Выключаем постобработку вывода
-
     // Сохраняем настройки
     tcsetattr(fd, TCSANOW, &options);
-    CROW_LOG_INFO << "RS485Vint: Последовательный порт открыт";
-}
 
-// Закрытый деструктор
-RS485Vint::~RS485Vint() {
-    object_exists = false;
-    // Закрываем порт
-    if (fd > 0) {
-        close(fd);
-    }
+    CROW_LOG_INFO << "RS485Vint: Последовательный порт открыт";
 }
 
 // Метод для отправки строки в порт и чтения строки из порта
@@ -80,6 +76,9 @@ bool RS485Vint::sending_string(std::uint8_t * buffer_in, std::uint8_t * buffer_o
         if (result == -1) {
             // Обработка ошибки
             CROW_LOG_ERROR << "RS485Vint: Ошибка записи";
+            if (open_port()) {
+                set_port();
+            }
             return false;
         }
         // Ждем немного перед чтением (можно настроить)
@@ -108,6 +107,9 @@ bool RS485Vint::sending_string(std::uint8_t * buffer_in, std::uint8_t * buffer_o
         return true;
     } else {
         CROW_LOG_ERROR << "RS485Vint: Порт закрыт";
+        if (open_port()) {
+            set_port();
+        }
         return false;
     }
 }

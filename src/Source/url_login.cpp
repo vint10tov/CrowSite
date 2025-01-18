@@ -9,11 +9,6 @@ URLLogin::URLLogin(std::string body, ConnectDB & db) {
         return;
     }
 
-    if (!db.get_status_object()) {
-        CROW_LOG_INFO << "URLLogin: Не удалось подключиться к базе данных";
-        return;
-    }
-
     if (!db.get_user(result.at("username"), user)) {
         CROW_LOG_INFO << "URLLogin: Пользователя " << result.at("username") << " не существует";
         return;

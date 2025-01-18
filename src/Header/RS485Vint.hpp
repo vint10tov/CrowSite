@@ -14,19 +14,14 @@
 
 class RS485Vint final {
     private:
-        static bool object_exists;     // Существование объекта этого класса в программе
-        bool status_object = false;    // Статус объекта (fals - не активен)
         static std::mutex mutex;       // Мьютекс для защиты многопоточности
         int fd = -1;
-        //const char port_name_0[13] = "/dev/ttyACM0";
-        //const char port_name_1[13] = "/dev/ttyACM1";
-        //const char port_name_2[13] = "/dev/ttyUSB0";
-        //const char port_name_3[13] = "/dev/ttyUSB1";
+        Config * conf;
 
-        // Запрет на копирование экземпляров
-        RS485Vint(const RS485Vint&) = delete;
-        RS485Vint& operator=(const RS485Vint&) = delete;
-
+        // создание дескриптора порта
+        bool open_port();
+        // настройка порта
+        void set_port();
         std::uint8_t calculate_checksum(const std::uint8_t *data, std::uint8_t size) const;
         bool verify_checksum(const std::uint8_t *data, std::uint8_t size) const;
     public:

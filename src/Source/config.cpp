@@ -5,7 +5,6 @@ Config::Config() {
         makeDb();
         makeSql();
     } else {
-        CROW_LOG_WARNING << "Config: Не удалось загрузить конфигурацию из файла";
         saveToJson();
         //exit(EXIT_FAILURE); // Завершение программы с кодом ошибки
         throw std::runtime_error("Config: Не удалось загрузить конфигурацию"); // Выбрасываем исключение
