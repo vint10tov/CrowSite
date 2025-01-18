@@ -6,10 +6,9 @@ RS485Vint::RS485Vint(Config & conf) {
 
     this->conf = &conf;
 
-    if (!open_port()) {
-        return;
+    if (open_port()) {
+        set_port();
     }
-    set_port();
 }
 
 // Закрытый деструктор
@@ -35,12 +34,13 @@ bool RS485Vint::open_port() {
 
 void RS485Vint::set_port() {
 
+     // Настройка порта
     struct termios options;
     tcgetattr(fd, &options);
-
-    // Устанавливаем параметры порта
-    cfsetispeed(&options, B9600); // Скорость приема
-    cfsetospeed(&options, B9600); // Скорость передачи
+    
+    // Установка скорости передачи
+    cfsetispeed(&options, B9600); // Выберите нужную скорость
+    cfsetospeed(&options, B9600); // Выберите нужную скорость
 
     // Настройка параметров порта
     options.c_cflag = (options.c_cflag & ~CSIZE) | CS8; // 8 бит данных
@@ -54,7 +54,7 @@ void RS485Vint::set_port() {
     options.c_iflag &= ~(IXON | IXOFF | IXANY); // Без программного управления потоком
     options.c_oflag &= ~OPOST; // Без обработки выходных данных
 
-    // Сохраняем настройки
+    // Применение настроек
     tcsetattr(fd, TCSANOW, &options);
 
     CROW_LOG_INFO << "RS485Vint: Последовательный порт открыт";
