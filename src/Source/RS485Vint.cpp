@@ -4,16 +4,16 @@ bool RS485Vint::object_exists = false;
 std::mutex RS485Vint::mutex;
 
 // при создании указывается последовательный порт например "/dev/ttyUSB0"
-RS485Vint::RS485Vint() {
+RS485Vint::RS485Vint(Config & conf) {
     if (object_exists) {
         CROW_LOG_WARNING << "RS485Vint: объект уже существует";
         return;
     }
     status_object  = true;
-    fd = open(port_name_2, O_RDWR | O_NOCTTY | O_NDELAY);
+    fd = open(conf.get_port_1().c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
 
     if (fd == -1) {
-        fd = open(port_name_3, O_RDWR | O_NOCTTY | O_NDELAY);
+        fd = open(conf.get_port_2().c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
         if (fd == -1) {
             CROW_LOG_ERROR << "RS485Vint: ошибка открытия порта";
             return;

@@ -3,14 +3,14 @@
 bool ConnectDB::object_exists = false;
 std::mutex ConnectDB::mutex;
 
-ConnectDB::ConnectDB() {
+ConnectDB::ConnectDB(Config & conf) {
     if (object_exists) {
         return;
     }
     object_exists = true;
     try {
         // Подключение к базе данных
-        connect = new pqxx::connection(db);
+        connect = new pqxx::connection(conf.get_db());
         if (connect->is_open()) {
             CROW_LOG_INFO << "ConnectDB: Подключено к базе данных: " << connect->dbname();
 
@@ -24,21 +24,16 @@ ConnectDB::ConnectDB() {
                     name VARCHAR(100) NOT NULL,
                     password VARCHAR(255) NOT NULL,
                     salt VARCHAR(50) NOT NULL,
-                    role VARCHAR(50) NOT NULL
+                    role VARCHAR(50) NOT NULL,
+                    CONSTRAINT unique_name UNIQUE (name)
                 );
             )";
 
             // Выполнение запроса на создание таблицы
             W.exec(create_table_sql);
 
-            // SQL-запрос для вставки одной записи, если такой записи еще нет
-            std::string insert_user_sql = R"(
-                INSERT INTO users (name, password, salt, role)
-                SELECT 'vint', 'ea048e51b2caa1c7b98b7e5c54d5d3c470d121a05ba3aa4b522fcb5e2e1de82e', 'yVc8qZal7PqWt7HG', 'admin'
-                WHERE NOT EXISTS (
-                    SELECT 1 FROM users WHERE name = 'vint'
-                );
-            )";
+            // SQL-запрос для вставки записей о пользователях
+            std::string insert_user_sql = conf.get_sql();
 
             // Выполнение запроса на вставку записи
             W.exec(insert_user_sql);

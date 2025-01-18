@@ -5,6 +5,7 @@
 #include <mutex>
 
 #include "user.hpp"
+#include "config.hpp"
 
 class ConnectDB final {
     private:
@@ -12,13 +13,13 @@ class ConnectDB final {
         bool status_object = false;    // Статус объекта (fals - не активен)
         static std::mutex mutex;       // Мьютекс для защиты многопоточности
         pqxx::connection * connect = nullptr;
-        const char db[67] = "dbname=crowbase user=crowserwer password=885596tovbazacrowserwer@V";
+        //const char db[67] = "dbname=crowbase user=crowserwer password=885596tovbazacrowserwer@V";
         
         // Запрет на копирование экземпляров
         ConnectDB(const ConnectDB&) = delete;
         ConnectDB& operator=(const ConnectDB&) = delete;
     public:
-        ConnectDB();
+        ConnectDB(Config & conf);
         ~ConnectDB();
         // получение данных пользователя
         bool get_user(std::string & username, User & user) const;

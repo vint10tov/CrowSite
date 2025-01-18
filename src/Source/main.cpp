@@ -6,16 +6,15 @@
 #include "RS485Vint.hpp"
 #include "url_relay.hpp"
 #include "url_login.hpp"
-
-const std::string dir_templates  = "../src/templates/";
-const std::string dir_static_css = "../src/static/css/";
+#include "config.hpp"
 
 int main() {
 
-    RS485Vint rs485;
-    ConnectDB db;
+    Config conf;
+    ConnectDB db(conf);
+    RS485Vint rs485(conf);
 
-    crow::mustache::set_global_base(dir_templates);
+    crow::mustache::set_global_base(conf.get_dir_templates());
 
     // определить сеанс с типом хранилища
     // В этом случае хранилище файлов на диске
@@ -27,9 +26,9 @@ int main() {
 
     //Статический маршрут css
     CROW_ROUTE(app, "/static/css/<path>")
-    ([](const std::string& filepath) {
+    ([&conf](const std::string& filepath) {
         crow::response res;
-        res.set_static_file_info_unsafe(dir_static_css + filepath);  // Указать путь к файлу
+        res.set_static_file_info_unsafe(conf.get_dir_static_css() + filepath);  // Указать путь к файлу
         return res;
     });
 
@@ -166,7 +165,7 @@ int main() {
     });
 
     // Запускаем сервер на порту 
-    app.port(8000)
+    app.port(conf.get_port())
     .multithreaded()
     .run();
 }
