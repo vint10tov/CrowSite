@@ -1,15 +1,29 @@
 <!DOCTYPE html>
+<html lang="ru"></html>
 <html>
- <head>
-  <meta charset="utf-8">
-  <title>{{ title }}</title>
- </head>
- <h3>{{ out }}</h3>
- <body>
-  <form action="/login" method="POST">
-  <p><label>Логин: </label> <input type="text" name="username" value="" requied /></p>
-  <p><label>Пароль: </label> <input type="password" name="psw" value="" requied /></p>
-  <p><input type="submit" value="Войти" /></p>
-  </form> 
- </body>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link type="text/css" rel="stylesheet" href="/static/css/index.css" />
+</head>
+<body>
+    <header>
+        <h1>Добро пожаловать на домашний сервер</h1>
+    </header>
+    <h3>{{out}}</h3>
+    <body>
+    <form action="/login" method="POST">
+        <p><label>Логин: </label> <input type="text" name="username" value="" requied /></p>
+        <p><label>Пароль: </label> <input type="password" name="psw" value="" requied /></p>
+        <p><input type="submit" value="Войти" /></p>
+    </form> 
+    <div class="container">
+        <h2>Ваш личный цифровой помощник</h2>
+        <p>Здесь вы можете управлять своим домашним хранилищем и контролировать умные устройства.</p>
+    </div>
+    <footer>
+        <p>&copy; 2025 v10tov</p>
+    </footer>
+</body>
 </html>

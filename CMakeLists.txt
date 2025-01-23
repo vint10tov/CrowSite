@@ -26,7 +26,7 @@ add_executable(${PROJECT_NAME} ${CPP_SOURCES})
 # Находим и подключаем библиотеки потоков
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
-target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT} pqxx pq OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT} pqxx pq OpenSSL::SSL OpenSSL::Crypto xlnt)
 
 # Указываем путь к библиотекам PostgreSQL
 link_directories(/usr/lib/postgresql)  # Добавляем путь к библиотекам PostgreSQL

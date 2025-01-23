@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link type="text/css" rel="stylesheet" href="/static/css/prices.css" />
+</head>
+<body>
+
+    <h1>Прайс-лист на электромонтажные работы</h1>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Наименование работ</th>
+            <th>Ед. изм.</th>
+            <th>Цена за ед.</th>
+        </tr>
+        {{#prices}}
+        <tr>
+            <td>{{id}}</td>
+            <td>{{name}}</td>
+            <td>{{unit_of_measurement}}</td>
+            <td>{{price}}</td>
+        </tr>
+        {{/prices}}
+    </table>
+
+    <div class="footer">
+        <p>Для получения консультации и заказов звоните: +7 (908) 796-71-69  Павел</p>
+        <p>Электромонтажные работы с гарантией качества!</p>
+    </div>
+
+</body>
+</html>
