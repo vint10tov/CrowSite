@@ -12,8 +12,8 @@ ConnectDB::ConnectDB(Config & conf) {
             // Создание объекта транзакции
             pqxx::work W(*connect);
 
-            // SQL-запрос для создания таблицы, если она не существует
-            std::string create_table_sql = R"(
+            // SQL-запрос для создания таблицы пользователей, если она не существует
+            std::string create_table_sql_users = R"(
                 CREATE TABLE IF NOT EXISTS users (
                     id SERIAL PRIMARY KEY,
                     name VARCHAR(100) NOT NULL,
@@ -25,7 +25,25 @@ ConnectDB::ConnectDB(Config & conf) {
             )";
 
             // Выполнение запроса на создание таблицы
-            W.exec(create_table_sql);
+            W.exec(create_table_sql_users);
+
+            // SQL-запрос для создания таблицы файлов, если она не существует
+            std::string create_table_sql_files = R"(
+                CREATE TABLE IF NOT EXISTS files (
+                    id SERIAL PRIMARY KEY,
+                    file_name VARCHAR(255) NOT NULL,
+                    file_type VARCHAR(50) NOT NULL,
+                    file_size BIGINT NOT NULL,
+                    upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    user_id INT NOT NULL,
+                    file_path VARCHAR(512) NOT NULL,
+                    description TEXT,
+                    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+                );
+            )";
+
+            // Выполнение запроса на создание таблицы
+            W.exec(create_table_sql_files);
 
             // SQL-запрос для вставки записей о пользователях
             std::string insert_user_sql = conf.get_sql();
